@@ -25,6 +25,9 @@ public interface IAzureSearchIndexManager
 
 internal sealed class AzureSearchIndexManager : IAzureSearchIndexManager
 {
+    private const int MaxConflictAttempts = 5;
+
+    private readonly ConcurrentDictionary<string, SemaphoreSlim> _indexLocks = new();
     private readonly AzureSearchOptions _options;
     private readonly IAzureSearchSchemaProvider _schemaProvider;
     private readonly AzureSearchProviderStatus _status;
@@ -56,7 +59,7 @@ internal sealed class AzureSearchIndexManager : IAzureSearchIndexManager
         var name = IndexName(indexAlias);
         try
         {
-            await _indexClient.Value.CreateOrUpdateIndexAsync(BuildIndex(indexAlias));
+            await WithIndexLockAsync(name, () => _indexClient.Value.CreateOrUpdateIndexAsync(BuildIndex(indexAlias)));
             _logger.LogInformation("Azure AI Search index {IndexName} is ready", name);
         }
         catch (RequestFailedException ex)
@@ -70,19 +73,50 @@ internal sealed class AzureSearchIndexManager : IAzureSearchIndexManager
         var name = IndexName(indexAlias);
         try
         {
-            try
+            await WithIndexLockAsync(name, async () =>
             {
-                await _indexClient.Value.DeleteIndexAsync(name);
-            }
-            catch (RequestFailedException ex) when (ex.Status == 404)
-            {
-            }
+                try
+                {
+                    await _indexClient.Value.DeleteIndexAsync(name);
+                }
+                catch (RequestFailedException ex) when (ex.Status == 404)
+                {
+                }
 
-            await _indexClient.Value.CreateIndexAsync(BuildIndex(indexAlias));
+                await _indexClient.Value.CreateIndexAsync(BuildIndex(indexAlias));
+            });
         }
         catch (RequestFailedException ex)
         {
             throw new InvalidOperationException($"Could not recreate the Azure AI Search index {name}. {AzureSearchErrors.Describe(ex)}", ex);
+        }
+    }
+
+    // Startup, content type changes and rebuilds can all touch an index at once (e.g. right after an install).
+    // Serialise them per index, and retry when Azure reports that another request is creating the same index.
+    private async Task WithIndexLockAsync(string indexName, Func<Task> operation)
+    {
+        SemaphoreSlim indexLock = _indexLocks.GetOrAdd(indexName, _ => new SemaphoreSlim(1, 1));
+        await indexLock.WaitAsync();
+        try
+        {
+            for (var attempt = 1; ; attempt++)
+            {
+                try
+                {
+                    await operation();
+                    return;
+                }
+                catch (RequestFailedException ex) when (ex.Status == 409 && attempt < MaxConflictAttempts)
+                {
+                    _logger.LogDebug("Azure AI Search index {IndexName} is being changed by another request; retrying", indexName);
+                    await Task.Delay(TimeSpan.FromSeconds(attempt));
+                }
+            }
+        }
+        finally
+        {
+            indexLock.Release();
         }
     }
 

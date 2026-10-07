@@ -132,6 +132,7 @@ internal sealed class AzureSearchBatchWriter : IAzureSearchBatchWriter, IAsyncDi
             .ToArray();
         buffer.Pending.Clear();
 
+        _logger.LogDebug("Uploading {Count} documents to {IndexAlias}", batch.Length, indexAlias);
         await UploadAsync(_indexManager.GetSearchClient(indexAlias), batch);
     }
 

@@ -480,3 +480,6 @@ umbraco-package-schema.json
 
 # Media files
 /wwwroot/media/
+
+# Local database copies, e.g. kept when switching Umbraco majors
+/umbraco/Data.*/

@@ -54,6 +54,7 @@ internal sealed class AzureSearchIndexer : IAzureSearchIndexer
         AzureSearchSchema schema = _schemaProvider.GetSchema(indexAlias);
         if (schema.AcceptsContentType(fieldsArray) is false)
         {
+            _logger.LogDebug("Skipping {Id} for {IndexAlias}: its content type is not listed for the index", id, indexAlias);
             return;
         }
 
