@@ -21,6 +21,8 @@
     <PackageReference Include="Umbraco.Cms.Api.Management" />
     <PackageReference Include="Umbraco.Cms.Web.Common" />
     <PackageReference Include="Umbraco.Cms.Web.Website" />
+    <!-- Referenced directly so the OpenAPI types used by the composer match the host site's version -->
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
   </ItemGroup>
 
 

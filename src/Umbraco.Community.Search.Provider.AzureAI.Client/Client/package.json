@@ -6,11 +6,11 @@
   "scripts": {
     "watch": "tsc && vite build --watch",
     "build": "tsc && vite build",
-    "generate-client": "node scripts/generate-openapi.js https://localhost:44313/umbraco/swagger/umbracocommunitysearchproviderazureaiclient/swagger.json"
+    "generate-client": "node scripts/generate-openapi.js https://localhost:44313/umbraco/openapi/umbracocommunitysearchproviderazureaiclient.json"
   },
   "devDependencies": {
-    "@hey-api/openapi-ts": "^0.85.2",
-    "@umbraco-cms/backoffice": "^17.7.0",
+    "@hey-api/openapi-ts": "^0.97.0",
+    "@umbraco-cms/backoffice": "^18.2.1",
     "chalk": "^5.6.2",
     "cross-env": "^10.1.0",
     "node-fetch": "^3.3.2",

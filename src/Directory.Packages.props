@@ -7,22 +7,23 @@
   <!-- Package dependencies: ranges keep the package on a single Umbraco major -->
   <ItemGroup>
     <PackageVersion Include="Azure.Search.Documents" Version="11.7.0" />
-    <PackageVersion Include="Umbraco.Cms.Search.Core" Version="[17.2.0, 18.0.0)" />
+    <PackageVersion Include="Umbraco.Cms.Search.Core" Version="[18.2.0, 19.0.0)" />
   </ItemGroup>
 
   <!-- Backoffice extension -->
   <ItemGroup>
-    <PackageVersion Include="Umbraco.Cms.Api.Common" Version="17.7.0" />
-    <PackageVersion Include="Umbraco.Cms.Api.Management" Version="17.7.0" />
-    <PackageVersion Include="Umbraco.Cms.Web.Common" Version="17.7.0" />
-    <PackageVersion Include="Umbraco.Cms.Web.Website" Version="17.7.0" />
+    <PackageVersion Include="Umbraco.Cms.Api.Common" Version="18.2.1" />
+    <PackageVersion Include="Umbraco.Cms.Api.Management" Version="18.2.1" />
+    <PackageVersion Include="Umbraco.Cms.Web.Common" Version="18.2.1" />
+    <PackageVersion Include="Umbraco.Cms.Web.Website" Version="18.2.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
   </ItemGroup>
 
   <!-- Test site -->
   <ItemGroup>
-    <PackageVersion Include="Umbraco.Cms" Version="17.7.0" />
-    <PackageVersion Include="Umbraco.Cms.Search.BackOffice" Version="17.2.0" />
-    <PackageVersion Include="Umbraco.Cms.Search.Provider.Examine" Version="17.2.0" />
+    <PackageVersion Include="Umbraco.Cms" Version="18.2.1" />
+    <PackageVersion Include="Umbraco.Cms.Search.BackOffice" Version="18.2.0" />
+    <PackageVersion Include="Umbraco.Cms.Search.Provider.Examine" Version="18.2.0" />
     <PackageVersion Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" />
     <PackageVersion Include="Bogus" Version="35.6.5" />
   </ItemGroup>
