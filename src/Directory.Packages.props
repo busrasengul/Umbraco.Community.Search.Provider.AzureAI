@@ -1,29 +1,34 @@
 <Project>
 
+  <!--
+    Umbraco 19 is in pre-release. Its packages are not on NuGet yet (as of October 2026), so this branch will not
+    restore until they are. Pin the floating versions below to exact releases once they are published.
+  -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
   </PropertyGroup>
 
-  <!-- Package dependencies: ranges keep the package on a single Umbraco major -->
+  <!-- Package dependencies: ranges keep the package on a single Umbraco major, pre-releases included -->
   <ItemGroup>
     <PackageVersion Include="Azure.Search.Documents" Version="11.7.0" />
-    <PackageVersion Include="Umbraco.Cms.Search.Core" Version="[18.2.0, 19.0.0)" />
+    <PackageVersion Include="Umbraco.Cms.Search.Core" Version="[19.0.0-0, 20.0.0)" />
   </ItemGroup>
 
   <!-- Backoffice extension -->
   <ItemGroup>
-    <PackageVersion Include="Umbraco.Cms.Api.Common" Version="18.2.1" />
-    <PackageVersion Include="Umbraco.Cms.Api.Management" Version="18.2.1" />
-    <PackageVersion Include="Umbraco.Cms.Web.Common" Version="18.2.1" />
-    <PackageVersion Include="Umbraco.Cms.Web.Website" Version="18.2.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
+    <PackageVersion Include="Umbraco.Cms.Api.Common" Version="19.*-*" />
+    <PackageVersion Include="Umbraco.Cms.Api.Management" Version="19.*-*" />
+    <PackageVersion Include="Umbraco.Cms.Web.Common" Version="19.*-*" />
+    <PackageVersion Include="Umbraco.Cms.Web.Website" Version="19.*-*" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="11.*-*" />
   </ItemGroup>
 
   <!-- Test site -->
   <ItemGroup>
-    <PackageVersion Include="Umbraco.Cms" Version="18.2.1" />
-    <PackageVersion Include="Umbraco.Cms.Search.BackOffice" Version="18.2.0" />
-    <PackageVersion Include="Umbraco.Cms.Search.Provider.Examine" Version="18.2.0" />
+    <PackageVersion Include="Umbraco.Cms" Version="19.*-*" />
+    <PackageVersion Include="Umbraco.Cms.Search.BackOffice" Version="19.*-*" />
+    <PackageVersion Include="Umbraco.Cms.Search.Provider.Examine" Version="19.*-*" />
     <PackageVersion Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" />
     <PackageVersion Include="Bogus" Version="35.6.5" />
   </ItemGroup>
