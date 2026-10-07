@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Product>Umbraco.Community.Search.Provider.AzureAI</Product>
+    <PackageId>Umbraco.Community.Search.Provider.AzureAI</PackageId>
+    <Title>Umbraco.Community.Search.Provider.AzureAI</Title>
+    <Description>An Azure AI Search provider for Umbraco Search. Indexes Umbraco content in Azure AI Search and serves search, filtering, faceting and sorting through the Umbraco Search abstractions.</Description>
+    <PackageTags>umbraco;umbraco-marketplace;search;azure;azure-ai-search;umbraco-search</PackageTags>
+    <Authors>Busra Sengul</Authors>
+    <Copyright>$([System.DateTime]::UtcNow.ToString(`yyyy`)) © Busra Sengul</Copyright>
+    <PackageProjectUrl>https://github.com/busrasengul/Umbraco.Community.Search.Provider.AzureAI</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/busrasengul/Umbraco.Community.Search.Provider.AzureAI</RepositoryUrl>
+    <PackageReadmeFile>README_nuget.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Search.Documents" />
+    <PackageReference Include="Umbraco.Cms.Search.Core" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Umbraco.Community.Search.Provider.AzureAI.Tests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\docs\README_nuget.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\docs\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

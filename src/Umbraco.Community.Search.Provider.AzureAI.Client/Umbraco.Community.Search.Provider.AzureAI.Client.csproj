@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Umbraco.Community.Search.Provider.AzureAI.Client</PackageId>
+    <Product>Umbraco.Community.Search.Provider.AzureAI.Client</Product>
+    <Title>Umbraco.Community.Search.Provider.AzureAI.Client</Title>
+    <!-- Backoffice UI for a future dashboard; not shipped until it has features -->
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+
+  <!-- Central package management - no versions -->
+  <ItemGroup>
+    <PackageReference Include="Umbraco.Cms.Api.Common" />
+    <PackageReference Include="Umbraco.Cms.Api.Management" />
+    <PackageReference Include="Umbraco.Cms.Web.Common" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <!-- Don't include the client folder as part of packaging nuget build -->
+    <Content Remove="Client\**" />
+
+    <!-- However make the Umbraco-package.json included for dotnet pack or nuget package and visible to the solution -->
+    <None Include="Client\public\umbraco-package.json" Pack="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+</Project>

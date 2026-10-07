@@ -1,0 +1,32 @@
+name: Release Package
+
+# Starts when a version tag is pushed, e.g. 17.0.0 or 19.0.0-beta1.
+# Tag from the branch that matches the Umbraco major (v17, v18 or v19).
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+-*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Test
+        run: dotnet test src/Umbraco.Community.Search.Provider.AzureAI.Tests/Umbraco.Community.Search.Provider.AzureAI.Tests.csproj -c Release
+
+      - name: Pack
+        run: dotnet pack src/Umbraco.Community.Search.Provider.AzureAI/Umbraco.Community.Search.Provider.AzureAI.csproj -c Release -o artifacts /p:Version=${{ github.ref_name }}
+
+      - name: Push to NuGet
+        run: dotnet nuget push "artifacts/*.nupkg" -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json

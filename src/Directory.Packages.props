@@ -1,0 +1,38 @@
+<Project>
+
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <!-- Package dependencies: ranges keep the package on a single Umbraco major -->
+  <ItemGroup>
+    <PackageVersion Include="Azure.Search.Documents" Version="11.7.0" />
+    <PackageVersion Include="Umbraco.Cms.Search.Core" Version="[17.2.0, 18.0.0)" />
+  </ItemGroup>
+
+  <!-- Backoffice extension -->
+  <ItemGroup>
+    <PackageVersion Include="Umbraco.Cms.Api.Common" Version="17.7.0" />
+    <PackageVersion Include="Umbraco.Cms.Api.Management" Version="17.7.0" />
+    <PackageVersion Include="Umbraco.Cms.Web.Common" Version="17.7.0" />
+    <PackageVersion Include="Umbraco.Cms.Web.Website" Version="17.7.0" />
+  </ItemGroup>
+
+  <!-- Test site -->
+  <ItemGroup>
+    <PackageVersion Include="Umbraco.Cms" Version="17.7.0" />
+    <PackageVersion Include="Umbraco.Cms.Search.BackOffice" Version="17.2.0" />
+    <PackageVersion Include="Umbraco.Cms.Search.Provider.Examine" Version="17.2.0" />
+    <PackageVersion Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" />
+    <PackageVersion Include="Bogus" Version="35.6.5" />
+  </ItemGroup>
+
+  <!-- Unit tests -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
+    <PackageVersion Include="NUnit" Version="4.6.1" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="6.3.0" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
+  </ItemGroup>
+
+</Project>

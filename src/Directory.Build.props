@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- The release workflow overrides this with the pushed tag -->
+    <Version>17.0.0</Version>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,14 @@
+{
+  "id": "Umbraco.Community.Search.Provider.AzureAI.Client",
+  "name": "Umbraco.Community.Search.Provider.AzureAI.Client",
+  "version": "0.0.0",
+  "allowTelemetry": true,
+  "extensions": [
+    {
+      "name": "Umbraco Community Search Provider Azure AIClient Bundle",
+      "alias": "Umbraco.Community.Search.Provider.AzureAI.Client.Bundle",
+      "type": "bundle",
+      "js": "/App_Plugins/UmbracoCommunitySearchProviderAzureAIClient/umbraco-community-search-provider-azure-ai-client.js"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://marketplace.umbraco.com/umbraco-marketplace-schema.json",
+  "AuthorDetails": {
+    "Name": "Busra Sengul",
+    "ImageUrl": "https://github.com/busrasengul.png"
+  },
+  "Category": "Search",
+  "Description": "An Azure AI Search provider for Umbraco Search. Indexes content in Azure AI Search and serves full text search, filters, facets and sorting, configured from appsettings with automatic field declarations from your content types.",
+  "DocumentationUrl": "https://github.com/busrasengul/Umbraco.Community.Search.Provider.AzureAI#readme",
+  "IssueTrackerUrl": "https://github.com/busrasengul/Umbraco.Community.Search.Provider.AzureAI/issues",
+  "LicenseTypes": [ "Free" ],
+  "PackageType": "Integration",
+  "Tags": [ "search", "azure", "azure ai search", "umbraco search", "search provider", "facets" ],
+  "Title": "Umbraco.Community.Search.Provider.AzureAI"
+}
