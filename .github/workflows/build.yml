@@ -4,6 +4,7 @@ on:
   push:
     branches: [ main, v17, v18, v19 ]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
