@@ -33,8 +33,13 @@ Then configure it in `appsettings.json`:
 }
 ```
 
+Keep the admin API key in user secrets or environment variables (`AzureSearchProvider__ApiKey`), not in `appsettings.json`.
+
+On startup the Azure indexes are created, and everything you publish is indexed from then on.
 `AutoFields` declares filterable, facetable and sortable fields from the content types' property editors.
-Set `RegisterDefaultIndexes` to `true` to move the default Umbraco Search indexes to Azure as well.
+If the site already has content, rebuild each index once with `IDistributedContentIndexRebuilder`. The full documentation shows how.
+
+Set `RegisterDefaultIndexes` to `true` to move the default Umbraco Search indexes to Azure as well, for backoffice and Delivery API search.
 
 A missing or invalid configuration is logged on startup and never stops the site.
 
