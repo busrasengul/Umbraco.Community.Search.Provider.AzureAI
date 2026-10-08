@@ -12,6 +12,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # lets NuGet trusted publishing verify this workflow
 
     steps:
       - name: Checkout repository
@@ -29,5 +32,12 @@ jobs:
       - name: Pack
         run: dotnet pack src/Umbraco.Community.Search.Provider.AzureAI/Umbraco.Community.Search.Provider.AzureAI.csproj -c Release -o artifacts /p:Version=${{ github.ref_name }}
 
+      # Trusted publishing: exchanges the GitHub OIDC token for a NuGet API key valid for one hour
+      - name: NuGet login
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: busrasengul # nuget.org profile name
+
       - name: Push to NuGet
-        run: dotnet nuget push "artifacts/*.nupkg" -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+        run: dotnet nuget push "artifacts/*.nupkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
