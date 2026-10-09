@@ -101,8 +101,34 @@ public class AzureSearchSchemaProviderTests
 
         AzureSearchSchema schema = provider.GetSchema("Products");
 
+        // fail closed: nothing is accepted until the content types can be checked
         Assert.That(schema.DeclaredFields, Is.Empty);
-        Assert.That(schema.ContentTypeKeys, Is.Null);
+        Assert.That(schema.ContentTypeKeys, Is.Empty);
+        Assert.That(schema.AcceptsContentType(SystemFields(ProductKey)), Is.False);
+    }
+
+    [Test]
+    public void Index_Whose_Content_Types_Do_Not_Exist_Accepts_Nothing()
+    {
+        AzureSearchSchemaProvider provider = SchemaProvider(
+            IndexOptions(new AzureSearchIndexOptions { Alias = "Products", ContentTypes = ["doesNotExist"] }),
+            ContentTypes());
+
+        AzureSearchSchema schema = provider.GetSchema("Products");
+
+        Assert.That(schema.AcceptsContentType(SystemFields(ProductKey)), Is.False);
+        Assert.That(schema.AcceptsContentType(SystemFields(ArticleKey)), Is.False);
+    }
+
+    [Test]
+    public void Index_Without_Content_Types_Accepts_Everything_Before_Umbraco_Runs()
+    {
+        AzureSearchSchemaProvider provider = SchemaProvider(
+            IndexOptions(new AzureSearchIndexOptions { Alias = "Everything" }),
+            ContentTypes(),
+            runtimeLevel: RuntimeLevel.Install);
+
+        Assert.That(provider.GetSchema("Everything").AcceptsContentType(SystemFields(ProductKey)), Is.True);
     }
 
     [Test]

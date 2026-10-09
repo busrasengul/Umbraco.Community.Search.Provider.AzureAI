@@ -153,6 +153,20 @@ public class AzureSearchSearcherTests
     }
 
     [Test]
+    public async Task Facets_Filters_And_Sorters_Without_A_Field_Name_Are_Ignored()
+    {
+        CoreSearchResult result = await Searcher().SearchAsync(
+            "Products",
+            filters: [new KeywordFilter(null!, ["x"], false)],
+            facets: [new KeywordFacet(null!), new KeywordFacet("")],
+            sorters: [new KeywordSorter(null!, Direction.Ascending)]);
+
+        Assert.That(result.Total, Is.EqualTo(1));
+        Assert.That(_requests.Single().Options.Facets, Is.Empty);
+        Assert.That(_requests.Single().Options.OrderBy, Is.Empty);
+    }
+
+    [Test]
     public async Task Disabled_Provider_Returns_No_Results()
     {
         CoreSearchResult result = await Searcher(Disabled).SearchAsync("Products", "cloud");

@@ -8,7 +8,7 @@ public class AzureSearchErrorsTests
     [TestCase(0, "could not be reached")]
     [TestCase(401, "must be an admin key")]
     [TestCase(403, "must be an admin key")]
-    [TestCase(404, "Check AzureSearchProvider:Endpoint")]
+    [TestCase(404, "the index does not exist yet")]
     [TestCase(429, "throttling")]
     [TestCase(500, "returned 500")]
     public void Describes_Failures_With_The_Setting_To_Check(int status, string expected)

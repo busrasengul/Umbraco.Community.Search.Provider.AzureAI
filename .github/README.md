@@ -347,7 +347,8 @@ The provider is built so that search problems never take your site down:
 | The Azure portal shows 0 documents | The portal's document count and storage figures lag behind. Use *Search explorer* to see what is in the index. |
 | A filter, facet or sort does nothing | The field is not declared. Look for a warning in the log, and add it under `Fields`. |
 | `rejected the index definition` | An existing field changed type. Rebuild the index. |
-| `lists the content type …, which does not exist` | A `ContentTypes` alias is wrong, or the content type has not been created yet. Fields are refreshed when it is created. |
+| `lists the content type …, which does not exist` | A `ContentTypes` alias is wrong, or the content type has not been created yet. Fields are refreshed when it is created. Until the content types exist, an index restricted to them accepts nothing, so rebuild it once they do (the [startup rebuild](#rebuilding-indexes) handles a fresh install). |
+| A property is not searchable and gets no automatic field | Umbraco Search has no value handler for its editor, so it is not indexed at all. For example, Umbraco Search 18.2 does not index the Element Picker. Add your own `IPropertyValueHandler` to index it. |
 
 ## Test site
 
