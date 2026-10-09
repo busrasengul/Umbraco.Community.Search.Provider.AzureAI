@@ -26,6 +26,17 @@ public class AzureSearchSchemaTests
     public void Undeclared_Fields_Do_Not_Resolve()
         => Assert.That(AzureSearchSchema.Empty.Resolve("price"), Is.Null);
 
+    [TestCase(null)]
+    [TestCase("")]
+    [TestCase("  ")]
+    public void Missing_Field_Names_Do_Not_Resolve(string? fieldName)
+    {
+        var schema = new AzureSearchSchema([Field("price", AzureFieldValues.Decimals)]);
+
+        Assert.That(schema.Resolve(fieldName!), Is.Null);
+        Assert.That(schema.TryGetDeclaredField(fieldName, out _), Is.False);
+    }
+
     [Test]
     public void Sortable_Keyword_Uses_A_Separate_Sort_Field()
     {

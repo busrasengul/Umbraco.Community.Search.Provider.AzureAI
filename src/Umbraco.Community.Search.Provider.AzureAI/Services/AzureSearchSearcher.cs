@@ -110,9 +110,12 @@ internal sealed class AzureSearchSearcher : IAzureSearchSearcher
         Task<Response<SearchResults<SearchDocument>>> mainSearch = client.SearchAsync<SearchDocument>(searchText, mainOptions);
 
         // facets on actively filtered fields are computed without their own filter, so editors can widen their selection
-        var activeFilterFields = filtersArray.Select(filter => filter.FieldName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var activeFilterFields = filtersArray
+            .Select(filter => filter.FieldName)
+            .Where(fieldName => string.IsNullOrWhiteSpace(fieldName) is false)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
         (Facet Facet, Task<Response<SearchResults<SearchDocument>>> Search)[] expandedFacetSearches = facetsArray
-            .Where(facet => activeFilterFields.Contains(facet.FieldName))
+            .Where(facet => activeFilterFields.Contains(facet.FieldName ?? string.Empty) && schema.Resolve(facet.FieldName!) is not null)
             .Select(facet =>
             {
                 Filter[] otherFilters = filtersArray

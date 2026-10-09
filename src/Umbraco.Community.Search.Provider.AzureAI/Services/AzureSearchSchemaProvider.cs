@@ -71,16 +71,23 @@ internal sealed class AzureSearchSchemaProvider : IAzureSearchSchemaProvider
         var fields = new Dictionary<string, AzureSearchFieldOptions.Field>(StringComparer.OrdinalIgnoreCase);
         HashSet<string>? contentTypeKeys = null;
 
-        if (index is { ContentTypes.Length: > 0 } && contentTypesAvailable)
+        if (index is { ContentTypes.Length: > 0 })
         {
-            IContentTypeComposition[] contentTypes = ResolveContentTypes(index);
-            contentTypeKeys = contentTypes.Select(contentType => contentType.Key.ToString("D")).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            // Until the content types can be read (e.g. while Umbraco installs), accept nothing rather than everything.
+            // That schema is not cached, and a rebuild indexes anything skipped meanwhile.
+            contentTypeKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-            if (index.AutoFields)
+            if (contentTypesAvailable)
             {
-                foreach (AzureSearchFieldOptions.Field field in AutoFields(indexAlias, contentTypes))
+                IContentTypeComposition[] contentTypes = ResolveContentTypes(index);
+                contentTypeKeys.UnionWith(contentTypes.Select(contentType => contentType.Key.ToString("D")));
+
+                if (index.AutoFields)
                 {
-                    fields[field.PropertyName] = field;
+                    foreach (AzureSearchFieldOptions.Field field in AutoFields(indexAlias, contentTypes))
+                    {
+                        fields[field.PropertyName] = field;
+                    }
                 }
             }
         }
