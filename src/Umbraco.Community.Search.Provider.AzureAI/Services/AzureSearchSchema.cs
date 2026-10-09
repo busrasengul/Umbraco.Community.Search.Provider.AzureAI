@@ -31,8 +31,16 @@ internal sealed class AzureSearchSchema
     /// <summary>Content type keys (<c>D</c> format) the index accepts; <c>null</c> accepts every content type.</summary>
     public IReadOnlySet<string>? ContentTypeKeys { get; }
 
-    public bool TryGetDeclaredField(string propertyName, out AzureSearchFieldOptions.Field field)
-        => _declaredFields.TryGetValue(propertyName, out field!);
+    public bool TryGetDeclaredField(string? propertyName, out AzureSearchFieldOptions.Field field)
+    {
+        if (string.IsNullOrWhiteSpace(propertyName))
+        {
+            field = null!;
+            return false;
+        }
+
+        return _declaredFields.TryGetValue(propertyName, out field!);
+    }
 
     public bool AcceptsContentType(IEnumerable<IndexField> fields)
     {
@@ -59,7 +67,7 @@ internal sealed class AzureSearchSchema
             CoreFieldNames.Name => new(AzureFieldNames.Name, AzureFieldValues.Keywords, false, AzureFieldNames.Name, true),
             CoreFieldNames.CreateDate => new(AzureFieldNames.CreateDate, AzureFieldValues.DateTimeOffsets, false, AzureFieldNames.CreateDate, true),
             CoreFieldNames.UpdateDate => new(AzureFieldNames.UpdateDate, AzureFieldValues.DateTimeOffsets, false, AzureFieldNames.UpdateDate, true),
-            _ => _declaredFields.TryGetValue(fieldName, out AzureSearchFieldOptions.Field? field)
+            _ => TryGetDeclaredField(fieldName, out AzureSearchFieldOptions.Field field)
                 ? new(AzureFieldNames.ForProperty(field), field.FieldValues, IsCollection(field), SortName(field), field.Sortable)
                 : null,
         };
