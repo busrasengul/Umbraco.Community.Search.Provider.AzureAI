@@ -1,0 +1,69 @@
+# Checks for dependency updates on the 1st and 15th of each month and opens one pull request per branch.
+# Each pull request is assigned to the maintainer (which sends an email) and runs the build and tests.
+# Major versions are ignored, so every branch stays on its own Umbraco major.
+# v19 is added once Umbraco 19 packages are published.
+
+version: 2
+
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/src"
+    target-branch: "v17"
+    schedule:
+      interval: "cron"
+      cronjob: "0 9 1,15 * *"
+      timezone: "Europe/London"
+    assignees: [ "busrasengul" ]
+    ignore:
+      - dependency-name: "*"
+        update-types: [ "version-update:semver-major" ]
+    groups:
+      v17-dependencies:
+        patterns: [ "*" ]
+    commit-message:
+      prefix: "v17"
+
+  - package-ecosystem: "nuget"
+    directory: "/src"
+    target-branch: "v18"
+    schedule:
+      interval: "cron"
+      cronjob: "0 9 1,15 * *"
+      timezone: "Europe/London"
+    assignees: [ "busrasengul" ]
+    ignore:
+      - dependency-name: "*"
+        update-types: [ "version-update:semver-major" ]
+    groups:
+      v18-dependencies:
+        patterns: [ "*" ]
+    commit-message:
+      prefix: "v18"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "v17"
+    schedule:
+      interval: "cron"
+      cronjob: "0 9 1,15 * *"
+      timezone: "Europe/London"
+    assignees: [ "busrasengul" ]
+    groups:
+      v17-actions:
+        patterns: [ "*" ]
+    commit-message:
+      prefix: "v17"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "v18"
+    schedule:
+      interval: "cron"
+      cronjob: "0 9 1,15 * *"
+      timezone: "Europe/London"
+    assignees: [ "busrasengul" ]
+    groups:
+      v18-actions:
+        patterns: [ "*" ]
+    commit-message:
+      prefix: "v18"
